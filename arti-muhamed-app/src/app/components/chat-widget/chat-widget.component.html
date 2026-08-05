@@ -1,17 +1,7 @@
-<div class="chat-toggle-btn" (click)="toggleChat()">
-  <button
-    class="chat-widget-button"
-    *ngIf="!isOpen"
-    mat-raised-button
-    color="primary"
-  >
-    <mat-icon>chat</mat-icon>
-    <span class="chat-span"> Chat with me! </span>
-  </button>
-  <button *ngIf="isOpen" mat-fab color="primary">
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+<button class="chat-toggle-btn" (click)="toggleChat()" [attr.aria-label]="isOpen ? 'Close chat preview' : 'Open chat preview'">
+  <span *ngIf="!isOpen" class="toggle-label"><small>Test your chatbot</small><strong>Open live preview</strong></span>
+  <span class="toggle-icon"><mat-icon>{{ isOpen ? 'close' : 'forum' }}</mat-icon><i *ngIf="!isOpen"></i></span>
+</button>
 
 <div class="chat-popup" *ngIf="isOpen">
   <app-chat-simulator />

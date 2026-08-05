@@ -2,29 +2,32 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(139,124,255,.14);
+  background: rgba(10, 9, 18, .82);
+  backdrop-filter: blur(18px);
+}
+.header-inner { width: min(1240px, calc(100% - 48px)); height: 76px; margin: auto; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid #4f458e; border-radius: 11px; color: #a99cff; background: linear-gradient(145deg,#29214c,#171429); }
+.brand-mark mat-icon { font-size: 19px; width: 19px; height: 19px; }
+.brand div { display: flex; flex-direction: column; gap: 2px; }
+.brand strong { color: #f6f5ff; font-size: 15px; }
+.brand small { color: #73718a; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.header-center { padding: 9px 13px; border: 1px solid #29273b; border-radius: 9px; color: #a5a3b8; background: #151421; font-size: 12px; }
+.header-center span { display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; background: #8b7cff; }
+.header-text { display: flex; align-items: center; gap: 8px; color: #77758d; font-size: 11px; }
+.saved-dot { width: 6px; height: 6px; border-radius: 50%; background: #4adea2; }
+@media (max-width: 700px) {
+  .header-inner { width: calc(100% - 28px); }
+  .header-center { display: none; }
+  .header-text { font-size: 0; }
 }
 
-.logo {
-  font-size: 1.4rem;
-  font-weight: bold;
-}
-
-.header-text {
-  display: flex;
-  align-items: center;
-  margin-top: 0.5rem;
-}
-
-@media (max-width: 600px) {
-  .header-text {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
-  }
-}
+.app-header { border-bottom-color: rgba(23,35,60,.12); background: rgba(250,247,240,.88); }
+.brand-mark { border-color: #17233c; border-radius: 50%; color: #fffdf8; background: #17233c; }
+.brand strong { color: #17233c; }
+.brand small { color: #8c857b; }
+.header-center { border-color: #ddd5c9; border-radius: 999px; color: #686d6c; background: #fffdf8; }
+.header-center span { background: #f26b4f; }
+.header-text { color: #8a857d; }
+.saved-dot { background: #0f9d8a; }

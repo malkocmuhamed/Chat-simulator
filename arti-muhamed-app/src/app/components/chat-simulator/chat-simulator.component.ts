@@ -33,6 +33,7 @@ export class ChatSimulatorComponent implements OnInit {
   chatHistory: ChatMessage[] = [];
   chatbotConfig!: Chatbot;
   storedFiles: StoredFile[] = [];
+  isTyping = false;
 
   constructor(private localStorageService: LocalStorageService) {}
 
@@ -59,6 +60,7 @@ export class ChatSimulatorComponent implements OnInit {
     this.chatHistory.push(userMessage);
     this.localStorageService.saveChatHistory(this.chatHistory);
     this.userInput = '';
+    this.isTyping = true;
 
     setTimeout(() => {
       const botMessage: ChatMessage = {
@@ -68,11 +70,13 @@ export class ChatSimulatorComponent implements OnInit {
       };
       this.chatHistory.push(botMessage);
       this.localStorageService.saveChatHistory(this.chatHistory);
-    }, 2000);
+      this.isTyping = false;
+    }, 1400);
   }
 
   clearChat(): void {
     this.chatHistory = [];
+    this.isTyping = false;
     this.localStorageService.clearChatHistory();
   }
 

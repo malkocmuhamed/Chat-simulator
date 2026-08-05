@@ -1,111 +1,75 @@
-<div class="page-container">
-  <div class="form-upload-wrapper">
-    <form
-      class="form-container"
-      [formGroup]="chatbotForm"
-      (ngSubmit)="saveData()"
-    >
-      <mat-card>
-        <mat-card-title class="card-title"
-          >Configure Your Chatbot</mat-card-title
-        >
-        <mat-card-content>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Chatbot Name</mat-label>
-            <input matInput formControlName="name" required />
-            <mat-error
-              *ngIf="chatbotForm.controls['name'].hasError('required')"
-            >
-              Name is required.
-            </mat-error>
-          </mat-form-field>
+<div class="builder-grid">
+  <form class="studio-card identity-card" [formGroup]="chatbotForm" (ngSubmit)="saveData()">
+    <div class="card-header">
+      <span class="section-icon"><mat-icon>tune</mat-icon></span>
+      <div><span class="section-label">01 / Identity</span><h2>Configure your chatbot</h2><p>Shape how your assistant introduces itself and communicates.</p></div>
+    </div>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Description</mat-label>
-            <textarea
-              matInput
-              formControlName="description"
-              rows="4"
-              required
-            ></textarea>
-            <mat-error
-              *ngIf="chatbotForm.controls['description'].hasError('required')"
-            >
-              Description is required.
-            </mat-error>
-          </mat-form-field>
+    <div class="form-content">
+      <label class="field-label" for="chatbot-name">Chatbot name</label>
+      <div class="custom-field" [class.invalid]="chatbotForm.controls['name'].touched && chatbotForm.controls['name'].invalid">
+        <mat-icon>smart_toy</mat-icon>
+        <input id="chatbot-name" formControlName="name" placeholder="e.g. Nova Support" />
+      </div>
+      <span class="field-error" *ngIf="chatbotForm.controls['name'].touched && chatbotForm.controls['name'].hasError('required')">A name is required.</span>
 
-          <div class="full-width slider-section">
-            <label class="slider-label"
-              >Personality:
-              {{ chatbotForm.value.personality | number : "1.1-1" }}</label
-            >
-            <mat-slider
-              class="slider"
-              [max]="1"
-              [min]="0"
-              [step]="0.1"
-              [discrete]="true"
-            >
-              <input matSliderThumb formControlName="personality" #slider />
-            </mat-slider>
-          </div>
-        </mat-card-content>
+      <label class="field-label" for="chatbot-description">Description</label>
+      <div class="custom-field textarea-field">
+        <mat-icon>notes</mat-icon>
+        <textarea id="chatbot-description" formControlName="description" rows="4" placeholder="Describe its purpose and tone..."></textarea>
+      </div>
+      <span class="field-error" *ngIf="chatbotForm.controls['description'].touched && chatbotForm.controls['description'].hasError('required')">A description is required.</span>
 
-        <mat-divider></mat-divider>
+      <div class="personality-block">
+        <div class="personality-heading">
+          <div><span class="field-label">Personality</span><small>Precise</small></div>
+          <strong>{{ chatbotForm.value.personality | number : "1.1-1" }}</strong>
+        </div>
+        <mat-slider [max]="1" [min]="0" [step]="0.1" [discrete]="true">
+          <input matSliderThumb formControlName="personality" />
+        </mat-slider>
+        <div class="slider-scale"><span>Focused</span><span>Balanced</span><span>Expressive</span></div>
+      </div>
+    </div>
 
-        <mat-card-actions class="chatbot-actions">
-          <button
-            mat-raised-button
-            color="primary"
-            type="submit"
-            [disabled]="!chatbotForm.valid"
-          >
-            {{ isEditMode ? "Update Chatbot" : "Create Chatbot" }}
-          </button>
-          <button
-            *ngIf="isEditMode"
-            mat-raised-button
-            color="warn"
-            (click)="deleteChatbot()"
-          >
-            Delete
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </form>
+    <div class="card-actions">
+      <button *ngIf="isEditMode" type="button" class="delete-button" (click)="deleteChatbot()"><mat-icon>delete_outline</mat-icon>Delete</button>
+      <span *ngIf="!isEditMode" class="privacy-note"><mat-icon>lock</mat-icon> Stored on this device</span>
+      <button class="primary-button" type="submit" [disabled]="!chatbotForm.valid"><mat-icon>check</mat-icon>{{ isEditMode ? "Save changes" : "Create chatbot" }}</button>
+    </div>
+  </form>
 
-    <mat-card class="upload-card-file">
-      <mat-card-title class="card-title"
-        >Upload Knowledge Base Files</mat-card-title
-      >
-      <mat-card-content>
-        <input
-          type="file"
-          id="file-upload"
-          accept=".txt"
-          multiple
-          (change)="onFileSelected($event)"
-          style="display: none"
-        />
+  <section class="studio-card knowledge-card">
+    <div class="card-header">
+      <span class="section-icon knowledge-icon"><mat-icon>library_books</mat-icon></span>
+      <div><span class="section-label">02 / Knowledge</span><h2>Knowledge base</h2><p>Add source material your chatbot can reference.</p></div>
+    </div>
 
-        <label for="file-upload" class="upload-button">Upload Files</label>
-        <mat-divider class="divider"></mat-divider>
+    <div class="knowledge-content">
+      <input type="file" id="file-upload" accept=".txt" multiple (change)="onFileSelected($event)" hidden />
+      <label for="file-upload" class="drop-zone">
+        <span class="upload-icon"><mat-icon>upload_file</mat-icon></span>
+        <strong>Upload knowledge files</strong>
+        <p>Drop your .txt files here or <span>browse files</span></p>
+        <small>Multiple files supported</small>
+      </label>
 
-        <h4 *ngIf="uploadedFiles.length">Uploaded Files:</h4>
-        <mat-list *ngIf="uploadedFiles.length">
-          <div class="file-item" *ngFor="let file of uploadedFiles">
-            <span>{{ file.name }}</span>
-            <mat-icon
-              color="warn"
-              (click)="deleteFile(file.name)"
-              aria-label="Delete file"
-              matTooltip="Delete file"
-              >delete</mat-icon
-            >
-          </div>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      <div class="file-summary">
+        <div><span>Connected sources</span><strong>{{ uploadedFiles.length }}</strong></div>
+        <span class="ready-state" *ngIf="uploadedFiles.length"><i></i> Ready</span>
+      </div>
+
+      <div class="empty-files" *ngIf="!uploadedFiles.length">
+        <mat-icon>folder_open</mat-icon><p>No files connected yet.</p><span>Uploaded file names will appear here.</span>
+      </div>
+
+      <div class="file-list" *ngIf="uploadedFiles.length">
+        <article class="file-item" *ngFor="let file of uploadedFiles">
+          <span class="file-type"><mat-icon>description</mat-icon></span>
+          <div><strong>{{ file.name }}</strong><small>Text document · Available</small></div>
+          <button type="button" (click)="deleteFile(file.name)" [attr.aria-label]="'Delete ' + file.name" matTooltip="Delete file"><mat-icon>close</mat-icon></button>
+        </article>
+      </div>
+    </div>
+  </section>
 </div>

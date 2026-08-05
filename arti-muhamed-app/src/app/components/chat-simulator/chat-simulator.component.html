@@ -1,50 +1,46 @@
-<div class="simulator-container">
-  <mat-card class="upload-card">
-    <div class="title-clear">
-      <mat-card-title class="chat-title">Chat Simulator </mat-card-title>
-      <button
-        *ngIf="chatHistory.length"
-        class="send-button"
-        matTooltip="Clear chat"
-        mat-raised-button
-        (click)="clearChat()"
-      >
-        <mat-icon class="clear-send-icon">delete_sweep</mat-icon>
-      </button>
+<section class="chat-window">
+  <header class="chat-header">
+    <div class="bot-avatar"><mat-icon>smart_toy</mat-icon><span></span></div>
+    <div class="chat-identity">
+      <strong>{{ chatbotConfig.name || 'Chatbot' }}</strong>
+      <span><i></i> Online · Usually replies instantly</span>
     </div>
-    <p *ngIf="chatbotConfig">Chat with {{ chatbotConfig.name }}!</p>
-    <mat-divider></mat-divider>
-    <mat-card-content class="chat-history">
-      <div *ngFor="let msg of chatHistory" [ngClass]="msg.sender">
-        <div class="bubble-timestamp">
-          <span class="bubble">
-            <strong *ngIf="msg.sender === 'bot'"
-              >{{ chatbotConfig.name }}:</strong
-            >
-            {{ msg.message }}
-          </span>
-          <div class="timestamp">
-            {{ msg.created_timestamp | date : "short" }}
-          </div>
-        </div>
-      </div>
-    </mat-card-content>
+    <button *ngIf="chatHistory.length" type="button" class="clear-button" matTooltip="Clear conversation" (click)="clearChat()" aria-label="Clear conversation"><mat-icon>delete_sweep</mat-icon></button>
+  </header>
 
-    <mat-card-actions class="input-area">
-      <input
-        matInput
-        [(ngModel)]="userInput"
-        (keyup.enter)="sendMessage()"
-        placeholder="Type your message..."
-      />
-      <button
-        class="send-button"
-        mat-raised-button
-        color="primary"
-        (click)="sendMessage()"
-      >
-        <mat-icon class="clear-send-icon">send</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+  <div class="chat-context">
+    <span><mat-icon>auto_awesome</mat-icon> Live preview</span>
+    <small>{{ storedFiles.length }} knowledge {{ storedFiles.length === 1 ? 'source' : 'sources' }}</small>
+  </div>
+
+  <div class="chat-history">
+    <div class="conversation-start" *ngIf="!chatHistory.length">
+      <span class="welcome-avatar"><mat-icon>waving_hand</mat-icon></span>
+      <strong>Start a conversation</strong>
+      <p>Send a message to preview how {{ chatbotConfig.name || 'your chatbot' }} responds.</p>
+    </div>
+
+    <div class="message-row" *ngFor="let msg of chatHistory" [ngClass]="msg.sender">
+      <span class="mini-avatar" *ngIf="msg.sender === 'bot'"><mat-icon>smart_toy</mat-icon></span>
+      <div class="message-stack">
+        <span class="sender-name">{{ msg.sender === 'bot' ? chatbotConfig.name : 'You' }}</span>
+        <div class="bubble">{{ msg.message }}</div>
+        <time>{{ msg.created_timestamp | date : "shortTime" }}</time>
+      </div>
+    </div>
+
+    <div class="message-row bot" *ngIf="isTyping">
+      <span class="mini-avatar"><mat-icon>smart_toy</mat-icon></span>
+      <div class="message-stack"><span class="sender-name">{{ chatbotConfig.name }}</span><div class="bubble typing"><i></i><i></i><i></i></div></div>
+    </div>
+  </div>
+
+  <footer class="composer">
+    <div class="input-wrap">
+      <input [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Write a message..." aria-label="Chat message" />
+      <span>Press Enter to send</span>
+    </div>
+    <button type="button" (click)="sendMessage()" [disabled]="!userInput.trim()" aria-label="Send message"><mat-icon>arrow_upward</mat-icon></button>
+  </footer>
+  <div class="chat-footer-note"><mat-icon>lock</mat-icon> This is a local conversation preview</div>
+</section>
