@@ -1,3 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 
-*{box-sizing:border-box}html{min-height:100%;background:#f3efe7}body{min-height:100%;margin:0;color:#17233c;background:radial-gradient(circle at 8% 8%,rgba(242,107,79,.12),transparent 25rem),radial-gradient(circle at 92% 72%,rgba(15,157,138,.1),transparent 28rem),#f3efe7;font-family:Inter,Roboto,"Helvetica Neue",sans-serif}button,input,textarea{font-family:inherit}::selection{color:#fff;background:#ef6b4f}.toast-container .ngx-toastr{border:1px solid #ded6ca;border-radius:8px!important;color:#17233c!important;background:#fffdf8!important;box-shadow:0 14px 40px rgba(23,35,60,.15)!important}
+* {
+    box-sizing: border-box
+}
+
+html {
+    min-height: 100%;
+    background: #f3efe7
+}
+
+body {
+    min-height: 100%;
+    margin: 0;
+    color: #17233c;
+    background: radial-gradient(circle at 8% 8%, rgba(242, 107, 79, .12), transparent 25rem), radial-gradient(circle at 92% 72%, rgba(15, 157, 138, .1), transparent 28rem), #f3efe7;
+    font-family: Inter, Roboto, "Helvetica Neue", sans-serif
+}
+
+button,
+input,
+textarea {
+    font-family: inherit
+}
+
+::selection {
+    color: #fff;
+    background: #ef6b4f
+}
+
+.toast-container .ngx-toastr {
+    border: 1px solid #ded6ca;
+    border-radius: 8px !important;
+    color: #17233c !important;
+    background: #fffdf8 !important;
+    box-shadow: 0 14px 40px rgba(23, 35, 60, .15) !important
+}

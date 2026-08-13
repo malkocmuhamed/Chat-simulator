@@ -1,4 +1,5 @@
-<button class="chat-toggle-btn" (click)="toggleChat()" [attr.aria-label]="isOpen ? 'Close chat preview' : 'Open chat preview'">
+<button class="chat-toggle-btn" (click)="toggleChat()"
+  [attr.aria-label]="isOpen ? 'Close chat preview' : 'Open chat preview'">
   <span *ngIf="!isOpen" class="toggle-label"><small>Test your chatbot</small><strong>Open live preview</strong></span>
   <span class="toggle-icon"><mat-icon>{{ isOpen ? 'close' : 'forum' }}</mat-icon><i *ngIf="!isOpen"></i></span>
 </button>
